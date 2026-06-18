@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios y Validación</title>
+    <link rel="stylesheet" href="../styles/estilos.css">
+</head>
+
+<body>
+    <main>
+        <form action="guardar" id="formulario">
+            <fieldset>
+
+                <label for="boton">Botón:</label>
+                <input type="button" id="boton" value="Botón">
+
+                <label for="chequeo">Cuadro de Chequeo:</label>
+                <input type="checkbox" id="chequeo">
+
+                <label for="color">Elige un color:</label>
+                <input type="color" id="color">
+
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha">
+
+                <label for="fecha-hora">Fecha y hora:</label>
+                <input type="datetime-local" id="fecha-hora">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email">
+
+                <label for="archivo">Cargar archivo:</label>
+                <input type="file" id="archivo">
+
+        
+                <input type="hidden" id="q">
+
+                <label for="imagen">Imagen:</label>
+                <input type="image" id="imagen" alt="Enviar">
+
+                <label for="mes">Mes:</label>
+                <input type="month" id="mes">
+
+                <label for="numero">Número:</label>
+                <input type="number" id="numero" name="numero" min="1" max="100" required>
+
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password">
+
+                <label for="radio1">Radio:</label>
+                <input type="radio" id="radio1" name="grupo1">
+
+                <label for="rango">Rango:</label>
+                <input type="range" id="rango">
+
+                <label for="reset">Resetear:</label>
+                <input type="reset" id="reset" value="Resetear">
+
+                <label for="busqueda">Búsqueda:</label>
+                <input type="search" id="busqueda">
+
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono">
+
+                <label for="texto">Texto:</label>
+                <input type="text" id="texto">
+
+                <label for="tiempo">Tiempo:</label>
+                <input type="time" id="tiempo">
+
+                <label for="url">URL:</label>
+                <input type="url" id="url">
+
+                <label for="semana">Semana:</label>
+                <input type="week" id="semana">
+
+                <label for="submit">Enviar:</label>
+                <input type="submit" id="submit" value="Enviar">
+
+            </fieldset>
+        </form>
+        <script src="../scripts/script.js"></script>
+    </main>
+</body>
+
+</html>
