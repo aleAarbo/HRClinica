@@ -1,15 +1,14 @@
 const formulario = document.querySelector('form');
+const entradaContrasenia = document.getElementById('contrasenia');
 
-contrasenia.addEventListener('submit', (e)=>{
-    e.preventDefault();
+formulario.addEventListener('submit', function (evento) {
+    evento.preventDefault();
 
-    const contrasenia = document.getElementById('contrasenia');
-    
-    const pattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}/;
+    const patron = /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}/;
 
-    if(pater.test(contrasenia.value)){
+    if (patron.test(entradaContrasenia.value)) {
         alert('exacto');
-    }else{
+    } else {
         alert('incorrecto');
     }
-})
+});

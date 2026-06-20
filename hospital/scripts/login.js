@@ -1,28 +1,28 @@
-const loginForm = document.getElementById('login-form');
-const userInput = document.getElementById('usuario');
-const passInput = document.getElementById('contrasenia');
-const messageBox = document.getElementById('login-message');
+const formularioInicio = document.getElementById('login-form');
+const entradaUsuario = document.getElementById('usuario');
+const entradaContrasenia = document.getElementById('contrasenia');
+const cajaMensaje = document.getElementById('login-message');
 
-loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const user = userInput.value.trim();
-    const pass = passInput.value.trim();
+formularioInicio.addEventListener('submit', function (evento) {
+    evento.preventDefault();
+    const usuario = entradaUsuario.value.trim();
+    const contrasenia = entradaContrasenia.value.trim();
 
-    if (!user || !pass) {
-        showMessage('Completa todos los campos para ingresar.', 'error');
+    if (!usuario || !contrasenia) {
+        mostrarMensaje('Completa todos los campos para ingresar.', 'error');
         return;
     }
 
-    if (user === 'ale' && pass === 'ale') {
+    if (usuario === 'ale' && contrasenia === 'ale') {
         window.location.href = 'pages/registrar_usuario.html';
         return;
     }
 
-    showMessage('Usuario o contraseña incorrectos.', 'error');
+    mostrarMensaje('Usuario o contraseña incorrectos.', 'error');
 });
 
-function showMessage(text, type) {
-    messageBox.textContent = text;
-    messageBox.className = `message ${type}`;
-    messageBox.style.display = 'block';
+function mostrarMensaje(texto, tipo) {
+    cajaMensaje.textContent = texto;
+    cajaMensaje.className = `message ${tipo}`;
+    cajaMensaje.style.display = 'block';
 }

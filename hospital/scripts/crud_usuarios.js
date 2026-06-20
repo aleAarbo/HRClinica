@@ -1,134 +1,135 @@
-const userForm = document.getElementById('user-form');
-const nameInput = document.getElementById('nombre');
-const emailInput = document.getElementById('email');
-const roleInput = document.getElementById('rol');
-const userNameInput = document.getElementById('usuario');
-const passwordInput = document.getElementById('password');
-const messageBox = document.getElementById('form-message');
-const usersBody = document.getElementById('users-body');
-const cancelButton = document.getElementById('cancel-button');
+const entradaNombre = document.getElementById('nombre');
+const entradaCorreo = document.getElementById('email');
+const entradaRol = document.getElementById('rol');
+const entradaUsuario = document.getElementById('usuario');
+const entradaContrasenia = document.getElementById('password');
+const cuadroMensaje = document.getElementById('form-message');
+const cuerpoUsuarios = document.getElementById('users-body');
+const botonCancelar = document.getElementById('cancel-button');
+const formularioUsuario = document.getElementById('user-form');
 
-let users = [];
-let editUserId = null;
+let usuarios = [];
+let identificadorUsuarioEditar = null;
 
-const savedUsers = localStorage.getItem('hospitalUsers');
-if (savedUsers) {
-    users = JSON.parse(savedUsers);
+const usuariosGuardados = localStorage.getItem('hospitalUsuarios');
+if (usuariosGuardados) {
+    usuarios = JSON.parse(usuariosGuardados);
 }
 
-userForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    saveUser();
+formularioUsuario.addEventListener('submit', function (evento) {
+    evento.preventDefault();
+    guardarUsuario();
 });
 
-cancelButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    resetForm();
+botonCancelar.addEventListener('click', function (evento) {
+    evento.preventDefault();
+    reiniciarFormulario();
 });
 
-function saveUser() {
-    const nombre = nameInput.value.trim();
-    const email = emailInput.value.trim();
-    const rol = roleInput.value;
-    const usuario = userNameInput.value.trim();
-    const password = passwordInput.value.trim();
+function guardarUsuario() {
+    const nombre = entradaNombre.value.trim();
+    const correo = entradaCorreo.value.trim();
+    const rol = entradaRol.value;
+    const usuario = entradaUsuario.value.trim();
+    const contrasenia = entradaContrasenia.value.trim();
 
-    if (!nombre || !email || !rol || !usuario || !password) {
-        showMessage('Completa todos los campos antes de guardar.', 'error');
+    if (!nombre || !correo || !rol || !usuario || !contrasenia) {
+        mostrarMensaje('Completa todos los campos antes de guardar.', 'error');
         return;
     }
 
-    if (editUserId) {
-        users = users.map((user) => {
-            if (user.id === editUserId) {
-                return { ...user, nombre, email, rol, usuario, password };
+    if (identificadorUsuarioEditar) {
+        usuarios = usuarios.map(function (usuarioGuardado) {
+            if (usuarioGuardado.identificador === identificadorUsuarioEditar) {
+                return { ...usuarioGuardado, nombre: nombre, correo: correo, rol: rol, usuario: usuario, contrasenia: contrasenia };
             }
-            return user;
+            return usuarioGuardado;
         });
-        showMessage('Usuario actualizado correctamente.', 'success');
+        mostrarMensaje('Usuario actualizado correctamente.', 'success');
     } else {
-        if (users.some((user) => user.usuario.toLowerCase() === usuario.toLowerCase())) {
-            showMessage('El nombre de usuario ya existe. Elige otro.', 'error');
+        if (usuarios.some(function (usuarioGuardado) { return usuarioGuardado.usuario.toLowerCase() === usuario.toLowerCase(); })) {
+            mostrarMensaje('El nombre de usuario ya existe. Elige otro.', 'error');
             return;
         }
-        const newUser = {
-            id: Date.now().toString(),
-            nombre,
-            email,
-            rol,
-            usuario,
-            password,
+
+        var usuarioNuevo = {
+            identificador: Date.now().toString(),
+            nombre: nombre,
+            correo: correo,
+            rol: rol,
+            usuario: usuario,
+            contrasenia: contrasenia,
         };
-        users.push(newUser);
-        showMessage('Usuario creado correctamente.', 'success');
+        usuarios.push(usuarioNuevo);
+        mostrarMensaje('Usuario creado correctamente.', 'success');
     }
 
-    saveUsers();
-    resetForm();
-    renderUsers();
+    guardarUsuarios();
+    reiniciarFormulario();
+    mostrarUsuarios();
 }
 
-function renderUsers() {
-    usersBody.innerHTML = '';
-    if (users.length === 0) {
-        usersBody.innerHTML = `<tr><td colspan="6">No hay usuarios guardados.</td></tr>`;
+function mostrarUsuarios() {
+    cuerpoUsuarios.innerHTML = '';
+    if (usuarios.length === 0) {
+        cuerpoUsuarios.innerHTML = '<tr><td colspan="6">No hay usuarios guardados.</td></tr>';
         return;
     }
 
-    users.forEach((user) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${user.nombre}</td>
-            <td>${user.email}</td>
-            <td>${user.rol}</td>
-            <td>${user.usuario}</td>
-            <td>${'*'.repeat(user.password.length)}</td>
+    usuarios.forEach(function (usuarioItem) {
+        var fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${usuarioItem.nombre}</td>
+            <td>${usuarioItem.correo}</td>
+            <td>${usuarioItem.rol}</td>
+            <td>${usuarioItem.usuario}</td>
+            <td>${'*'.repeat(usuarioItem.contrasenia.length)}</td>
             <td class="actions">
-                <button type="button" class="button secondary" onclick="editUser('${user.id}')">Editar</button>
-                <button type="button" class="button danger" onclick="deleteUser('${user.id}')">Eliminar</button>
+                <button type="button" class="button secondary" onclick="editarUsuario('${usuarioItem.identificador}')">Editar</button>
+                <button type="button" class="button danger" onclick="eliminarUsuario('${usuarioItem.identificador}')">Eliminar</button>
             </td>
         `;
-        usersBody.appendChild(row);
+        cuerpoUsuarios.appendChild(fila);
     });
 }
 
-function editUser(id) {
-    const user = users.find((item) => item.id === id);
-    if (!user) return;
+function editarUsuario(identificadorUsuario) {
+    var usuarioItem = usuarios.find(function (usuarioGuardado) { return usuarioGuardado.identificador === identificadorUsuario; });
+    if (!usuarioItem) return;
 
-    editUserId = id;
-    nameInput.value = user.nombre;
-    emailInput.value = user.email;
-    roleInput.value = user.rol;
-    userNameInput.value = user.usuario;
-    passwordInput.value = user.password;
-    showMessage('Edita los datos del usuario y presiona Guardar.', 'success');
+    identificadorUsuarioEditar = identificadorUsuario;
+    entradaNombre.value = usuarioItem.nombre;
+    entradaCorreo.value = usuarioItem.correo;
+    entradaRol.value = usuarioItem.rol;
+    entradaUsuario.value = usuarioItem.usuario;
+    entradaContrasenia.value = usuarioItem.contrasenia;
+    mostrarMensaje('Edita los datos del usuario y presiona Guardar.', 'success');
 }
 
-function deleteUser(id) {
-    users = users.filter((user) => user.id !== id);
-    saveUsers();
-    renderUsers();
-    showMessage('Usuario eliminado.', 'success');
+function eliminarUsuario(identificadorUsuario) {
+    usuarios = usuarios.filter(function (usuarioGuardado) { return usuarioGuardado.identificador !== identificadorUsuario; });
+    guardarUsuarios();
+    mostrarUsuarios();
+    mostrarMensaje('Usuario eliminado.', 'success');
 }
 
-function saveUsers() {
-    localStorage.setItem('hospitalUsers', JSON.stringify(users));
+function guardarUsuarios() {
+    localStorage.setItem('hospitalUsuarios', JSON.stringify(usuarios));
 }
 
-function resetForm() {
-    editUserId = null;
-    userForm.reset();
-    messageBox.style.display = 'none';
+function reiniciarFormulario() {
+    identificadorUsuarioEditar = null;
+    formularioUsuario.reset();
+    cuadroMensaje.style.display = 'none';
 }
 
-function showMessage(text, type) {
-    messageBox.textContent = text;
-    messageBox.className = `message ${type}`;
-    messageBox.style.display = 'block';
+function mostrarMensaje(texto, tipo) {
+    cuadroMensaje.textContent = texto;
+    cuadroMensaje.className = 'message ' + tipo;
+    cuadroMensaje.style.display = 'block';
 }
 
-window.editUser = editUser;
-window.deleteUser = deleteUser;
+window.editarUsuario = editarUsuario;
+window.eliminarUsuario = eliminarUsuario;
 
-renderUsers();
+mostrarUsuarios();

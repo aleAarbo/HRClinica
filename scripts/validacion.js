@@ -34,4 +34,3 @@ nacimiento.addEventListener('blur', function (evento) {
             alert(`Hubo un problema al consultar la API: ${error.message}`);
         });
 });
-

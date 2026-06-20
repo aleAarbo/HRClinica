@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocalización con OpenStreetMap</title>
+    <link rel="stylesheet" href="../css/cssindex.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geolocalización con OpenStreetMap</h1>
+    <input type="text" id="direccionInput" placeholder="Ingresa una dirección">
+    <button onclick="buscarUbicacion()"> Obtener ubicación</button>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="../scripts/geolocalizacion.js"></script>
+</body>
+</html>
